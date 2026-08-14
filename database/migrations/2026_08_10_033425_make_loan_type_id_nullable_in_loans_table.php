@@ -8,19 +8,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('loans', function (Blueprint $table) {
-            $table->foreignId('loan_type_id')
-                ->nullable()
-                ->change();
-        });
+        if (Schema::hasColumn('loans', 'loan_type_id')) {
+            Schema::table('loans', function (Blueprint $table) {
+                $table->unsignedBigInteger('loan_type_id')
+                    ->nullable()
+                    ->change();
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('loans', function (Blueprint $table) {
-            $table->foreignId('loan_type_id')
-                ->nullable(false)
-                ->change();
-        });
+        if (Schema::hasColumn('loans', 'loan_type_id')) {
+            Schema::table('loans', function (Blueprint $table) {
+                $table->unsignedBigInteger('loan_type_id')
+                    ->nullable(false)
+                    ->change();
+            });
+        }
     }
 };
